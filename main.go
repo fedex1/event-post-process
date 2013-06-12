@@ -8,7 +8,8 @@ import (
 )
  
 func main() {
-    file, err := os.Open("names.txt")
+    //file, err := os.Open("names.txt")
+    file, err := os.Open("move.backup.10Jun2013.EventEntry.csv")
     if err != nil {
         fmt.Println("Error:", err)
         return
