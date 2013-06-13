@@ -45,7 +45,9 @@ with open(filename, 'rb') as csvfile:
     map = {}
     map2 = {}
     count1 = {}
+    count1withcart = {}
     data = []
+    datawithcart = []
     i = 0
     for row in csvreader:
         #print ', '.join(row)
@@ -78,6 +80,27 @@ with open(filename, 'rb') as csvfile:
             else:
                 count1[entry["eventid"]] += 1
 
+            entrywithcart = {}
+            cart2 = row[map2['cart2']]
+            #print cart2
+            csvreadercart2 = csv.reader([cart2], delimiter=',', quotechar='"',skipinitialspace=True)
+            for rowcart2 in csvreadercart2:
+                for item in rowcart2:
+                    #print item
+                    entrywithcart["cart2new"] = item
+                    entrywithcart["created"] = row[map2['created']]
+                    entrywithcart["eventid"] = row[map2['eventid']]
+                    entrywithcart["first"] = row[map2['first']]
+                    entrywithcart["last"] = row[map2['last']]
+                    entrywithcart["age"] = row[map2['age']]
+                    entrywithcart["gender"] = row[map2['gender']]
+                    entrywithcart["checkout_id"] = row[map2['checkout_id']]
+                    datawithcart.append(entrywithcart)
+                    if item not in count1withcart:
+                        count1withcart[item] = 1
+                    else:
+                        count1withcart[item] += 1
+
         first = False
 
 data = sorted(data, key=lambda x: x["created"], reverse=True)
@@ -89,11 +112,12 @@ for datum in data:
     pass
 #print count1
 
-print '===Event Entry Overall Count==='
+print '<h2>===Event Entry Overall Count===</h2>'
 count2list = []
 for key in count1:
     if key not in names:
-        print 'issue: key: >>', key, '<<'
+        #print 'issue: key: >>', key, '<<'
+        pass
     else:
         count2 = {}
         count2["name"] = names[key]
@@ -106,3 +130,13 @@ print '<table>'
 for itemx in count2list:
     print '<tr><td>',itemx["name"],'</td><td>', itemx["value"], '</td></tr>'
 print '</table>'
+
+
+#print datawithcart
+#print count1withcart
+print '<h2>===Event Entry Detail Count===</h2>'
+print '<table>'
+for x in count1withcart:
+    print '<tr><td>',x,'</td><td>', count1withcart[x], '</td></tr>'
+print '</table>'
+
