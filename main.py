@@ -96,10 +96,19 @@ with open(filename, 'rb') as csvfile:
                     entrywithcart["gender"] = row[map2['gender']]
                     entrywithcart["checkout_id"] = row[map2['checkout_id']]
                     datawithcart.append(entrywithcart)
-                    if item not in count1withcart:
-                        count1withcart[item] = 1
+                    eventid = row[map2['eventid']]
+                    eventname = ''
+                    if eventid not in names:
+                        #print 'issue: key: >>', key, '<<'
+                        pass
                     else:
-                        count1withcart[item] += 1
+                        eventname = names[eventid]
+
+                    itemkey = '%s - %s' % (eventname, item)
+                    if itemkey not in count1withcart:
+                        count1withcart[itemkey] = 1
+                    else:
+                        count1withcart[itemkey] += 1
 
         first = False
 
