@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import csv
+import re
 
 filename = 'move.backup.10Jun2013.EventEntry.csv'
 if len(sys.argv) > 1:
@@ -87,6 +88,7 @@ with open(filename, 'rb') as csvfile:
             for rowcart2 in csvreadercart2:
                 for item in rowcart2:
                     #print item
+                    item = re.sub('^(u\"|u\'|\[u\'|\[u\")|(\'\]|\"\]|\'|\")$','',item)
                     entrywithcart["cart2new"] = item
                     entrywithcart["created"] = row[map2['created']]
                     entrywithcart["eventid"] = row[map2['eventid']]
